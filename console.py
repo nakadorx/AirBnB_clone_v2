@@ -4,6 +4,8 @@ import cmd
 import sys
 from models.base_model import BaseModel
 from models.__init__ import storage
+from models.engine.file_storage import FileStorage
+from models.engine.db_storage import DBStorage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -204,22 +206,23 @@ class HBNBCommand(cmd.Cmd):
         print("[Usage]: destroy <className> <objectId>\n")
 
     def do_all(self, args):
-        """ Shows all objects, or all objects of a class"""
-        print_list = []
-
-        if args:
-            args = args.split(' ')[0]  # remove possible trailing args
-            if args not in HBNBCommand.classes:
-                print("** class doesn't exist **")
-                return
-            for k, v in storage._FileStorage__objects.items():
-                if k.split('.')[0] == args:
-                    print_list.append(str(v))
+        """All command Prints all string representation of \
+            all instances based or not on the class name
+        """
+        args = args.split()
+        lst = []
+        if args[0] not in HBNBCommand.classes.keys():
+            print("** class doesn't exist **")
+        elif not args:
+            obj = storage.all()
+            for key in obj:
+                lst.append(str(obj[key]))
+                print(lst)
         else:
-            for k, v in storage._FileStorage__objects.items():
-                print_list.append(str(v))
-
-        print(print_list)
+            obj = storage.all(eval(args[0]))
+            for key in obj:
+                lst.append(str(obj[key]))
+                print(lst)
 
     def help_all(self):
         """ Help information for the all command """
