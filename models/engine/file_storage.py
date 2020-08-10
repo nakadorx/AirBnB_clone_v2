@@ -15,7 +15,8 @@ class FileStorage:
         else:
             temp = {}
             for key, val in FileStorage.__objects.items():
-                temp[key] = val.to_dict()
+                if val.__class__ == cls:
+                    temp[key] = val.to_dict()
             return temp
 
     def new(self, obj):
