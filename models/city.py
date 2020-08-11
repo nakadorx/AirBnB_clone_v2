@@ -1,10 +1,7 @@
 #!/usr/bin/python3
 """ City Module for HBNB project """
-from models.base_model import BaseModel
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-
-Base = declarative_base()
+from models.base_model import BaseModel, Base
+from sqlalchemy import Column, String, ForeignKey
 
 
 class City(BaseModel, Base):

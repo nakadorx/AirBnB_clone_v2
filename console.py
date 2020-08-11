@@ -128,9 +128,16 @@ class HBNBCommand(cmd.Cmd):
         param = args[1:]
         for p in param:
             sparam = p.split("=")
-            replaced = sparam[1].replace("_", " ")
-            replaced = replaced.strip('"')
-            setattr(new_instance, sparam[0], replaced)
+            key = sparam[0]
+            val = sparam[1]
+            if val[0] == '\"' and val[-1] == '\"':
+                val = val.replace("_", " ")
+                val = val.strip('"')
+            elif '.' in val:
+                val = float(val)
+            else:
+                val = int(val)
+            setattr(new_instance, key, val)
         new_instance.save()
         print(new_instance.id)
 
@@ -211,7 +218,7 @@ class HBNBCommand(cmd.Cmd):
         """
         args = args.split()
         lst = []
-        if args[0] not in HBNBCommand.classes.keys():
+        if args and args[0] not in HBNBCommand.classes.keys():
             print("** class doesn't exist **")
         elif not args:
             obj = storage.all()
