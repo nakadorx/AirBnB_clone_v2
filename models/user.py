@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""This module defines a class User"""
+"""This modules defines aa class User"""
 import models
 from models.base_model import BaseModel, Base
 from os import getenv
