@@ -13,5 +13,5 @@ class Amenity(BaseModel, Base):
         Base ([type]): [description]
     """
     __tablename__ = "amenities"
-    name = Column(String(12), nullable=False)
+    name = Column(String(128), nullable=False)
     place_amenities = relationship("Place", secondary="place_amenity")
