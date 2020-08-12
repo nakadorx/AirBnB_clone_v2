@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 class State(BaseModel, Base):
     """ State class """
     name = Column(String(128), nullable=False)
-    cities = relationship("City", backref="state", cascade="all")
+    cities = relationship("City", backref="state", cascade="all, delete")
     __tablename__ = "states"
 
     @property
