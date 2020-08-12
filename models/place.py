@@ -67,4 +67,4 @@ class Place(BaseModel, Base):
             val ([obj]): [obj to be set]
         """
         if isinstance(self, val, Amenity):
-            self.amenity_ids.append(Amenity_id)
+            self.amenity_ids.append(val.id)
