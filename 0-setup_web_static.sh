@@ -18,12 +18,11 @@ printf %s "server {
 	listen [::]:80 default_server;
 	root   /usr/share/nginx/html;
 	index  index.html index.htm;
-
     add_header X-Served-By $HOSTNAME;
 
-    location /hbnb_static/ {
+    location /hbnb_static {
         alias /data/web_static/current;
-        autoindex off;
+        index index.html index.htm;
     }
 
     location /redirect_me {
