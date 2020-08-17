@@ -31,11 +31,15 @@ exec { 'update':
   require => Exec['update'],
 }
 
--> file { '/data/':
+-> file { '/data':
   ensure => 'directory',
-  owner  => 'ubuntu',
-  group  => 'ubuntu',
 }
+
+-> exec { 'chown':
+  command  => 'sudo chown -R ubuntu:ubuntu /data/',
+  provider => 'shell',
+}
+
 -> file { '/data/web_static/releases':
     ensure => 'directory',
 }
@@ -44,7 +48,7 @@ exec { 'update':
     ensure => 'directory',
 }
 
--> file { '/data/web_static/shared/':
+-> file { '/data/web_static/shared':
     ensure => 'directory',
 }
 
@@ -55,7 +59,7 @@ exec { 'update':
 
 -> file { '/data/web_static/current':
   ensure => 'link',
-  target => '/data/web_static/releases/test/',
+  target => '/data/web_static/releases/test',
 }
 
 -> file { '/etc/nginx/sites-available/default':
