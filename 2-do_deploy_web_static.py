@@ -4,7 +4,7 @@ comnt
 """
 from os.path import exists
 from fabric.api import put, run, env
-env.hosts = ['142.44.167.228', '144.217.246.195']
+env.hosts = ['35.237.44.86', '35.237.162.75']
 
 
 def do_deploy(archive_path):
