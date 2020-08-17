@@ -36,7 +36,11 @@ exec { 'update':
   owner  => 'ubuntu',
   group  => 'ubuntu',
 }
--> file { '/data/web_static/releases/test/':
+-> file { '/data/web_static/releases':
+    ensure => 'directory',
+}
+
+-> file { '/data/web_static/releases/test':
     ensure => 'directory',
 }
 
@@ -44,23 +48,23 @@ exec { 'update':
     ensure => 'directory',
 }
 
--> exec { 'link':
-  command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
-  provider => 'shell',
-}
-
--> file { 'default':
+-> file { '/data/web_static/releases/test/index.html':
   ensure  => 'present',
-  path    => '/etc/nginx/sites-available/default',
-  content => $def,
+  content => 'Holberton School',
 }
 
--> exec { 'Holberton School':
-  command  => 'sudo echo "Holberton School" | sudo tee /usr/share/nginx/html/index.html',
-  provider => 'shell',
+-> file { '/data/web_static/current':
+  ensure => 'link',
+  target => '/data/web_static/releases/test/',
+}
+
+-> file { '/etc/nginx/sites-available/default':
+  ensure  => 'present',
+  content => $def,
 }
 
 -> service { 'nginx':
   ensure  => running,
+  enable  => true,
   require => Package['nginx'],
 }
