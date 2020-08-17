@@ -1,7 +1,27 @@
 #puppet manifest that sets up your web servers for the deployment of web_static
 
-$str = "add_header X-Served-By ${hostname};"
-$hbnb_static = "\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t\tindex index.html index.htm;\n\t}"
+$def = 'server {
+	listen 80;
+	listen [::]:80 default_server;
+	root   /usr/share/nginx/html;
+	index  index.html index.htm;
+    add_header X-Served-By $HOSTNAME;
+
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+
+    location /redirect_me {
+		return 301 http://youtube.com/;
+	}
+
+	error_page 404 /notfound.html;
+	location = /notfound {
+		root /usr/share/nginx/html;
+		internal;
+	}
+}'
 
 exec { 'update':
   command  => '/usr/bin/apt-get update',
@@ -11,14 +31,17 @@ exec { 'update':
   require => Exec['update'],
 }
 
--> exec { 'mkdir':
-  command  => 'sudo mkdir -p /data/web_static/releases/test/',
-  provider => 'shell'
+-> file { '/data/':
+  ensure => 'directory',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
+}
+-> file { '/data/web_static/releases/test/':
+    ensure => 'directory',
 }
 
--> exec { 'mkdir_2':
-  command  => 'sudo mkdir -p /data/web_static/shared/',
-  provider => 'shell',
+-> file { '/data/web_static/shared/':
+    ensure => 'directory',
 }
 
 -> exec { 'link':
@@ -26,30 +49,10 @@ exec { 'update':
   provider => 'shell',
 }
 
--> exec { 'ownership':
-  command  => 'sudo chown -R ubuntu:ubuntu /data/',
-  provider => 'shell',
-}
-
--> file_line { '301 Moved Permanently':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
-  line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=0MW0mDZysxc permanent;',
-}
-
--> file_line { 'X-Served-By':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'listen 80 default_server;',
-  line   => $str,
-}
-
--> file_line { 'alias':
-  ensure => 'present',
-  path   => '/etc/nginx/sites-available/default',
-  after  => 'index  index.html index.htm;',
-  line   => $hbnb_static,
+-> file { 'default':
+  ensure  => 'present',
+  path    => '/etc/nginx/sites-available/default',
+  content => $def,
 }
 
 -> exec { 'Holberton School':
