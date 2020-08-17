@@ -11,16 +11,6 @@ $def = 'server {
         alias /data/web_static/current;
         index index.html index.htm;
     }
-
-    location /redirect_me {
-		return 301 http://youtube.com/;
-	}
-
-	error_page 404 /notfound.html;
-	location = /notfound {
-		root /usr/share/nginx/html;
-		internal;
-	}
 }'
 
 $holberton = '<html>
@@ -47,7 +37,7 @@ exec { 'update':
   require => Exec['update'],
 }
 
--> file { ['/data/', '/data/web_static/', '/data/web_static/releases/', '/data/web_static/releases/test', '/data/web_static/shared', ]:
+-> file { ['/data/', '/data/web_static/', '/data/web_static/releases/', '/data/web_static/releases/test', '/data/web_static/shared']:
   ensure => 'directory',
   owner  => 'ubuntu',
   group  => 'ubuntu',
