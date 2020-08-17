@@ -23,6 +23,22 @@ $def = 'server {
 	}
 }'
 
+$holberton = '<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>
+ubuntu@89-web-01:~/$ curl localhost/hbnb_static/index.html
+<html>
+  <head>
+  </head>
+  <body>
+    Holberton School
+  </body>
+</html>'
+
 exec { 'update':
   command  => '/usr/bin/apt-get update',
 }
@@ -31,30 +47,15 @@ exec { 'update':
   require => Exec['update'],
 }
 
--> file { '/data':
+-> file { ['/data/', '/data/web_static/', '/data/web_static/releases/', '/data/web_static/releases/test', '/data/web_static/shared', ]:
   ensure => 'directory',
-}
-
--> exec { 'chown':
-  command  => 'sudo chown -R ubuntu:ubuntu /data/',
-  provider => 'shell',
-}
-
--> file { '/data/web_static/releases':
-    ensure => 'directory',
-}
-
--> file { '/data/web_static/releases/test':
-    ensure => 'directory',
-}
-
--> file { '/data/web_static/shared':
-    ensure => 'directory',
+  owner  => 'ubuntu',
+  group  => 'ubuntu',
 }
 
 -> file { '/data/web_static/releases/test/index.html':
   ensure  => 'present',
-  content => 'Holberton School',
+  content => $holberton,
 }
 
 -> file { '/data/web_static/current':
