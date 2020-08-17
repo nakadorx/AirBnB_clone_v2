@@ -11,6 +11,26 @@ exec { 'update':
   require => Exec['update'],
 }
 
+-> exec { 'mkdir':
+  command  => 'sudo mkdir -p /data/web_static/releases/test/',
+  provider => 'shell'
+}
+
+-> exec { 'mkdir_2':
+  command  => 'sudo mkdir -p /data/web_static/shared/',
+  provider => 'shell',
+}
+
+-> exec { 'link':
+  command  => 'ln -sf /data/web_static/releases/test/ /data/web_static/current',
+  provider => 'shell',
+}
+
+-> exec { 'ownership':
+  command  => 'sudo chown -R ubuntu:ubuntu /data/',
+  provider => 'shell',
+}
+
 -> file_line { '301 Moved Permanently':
   ensure => 'present',
   path   => '/etc/nginx/sites-available/default',
@@ -18,7 +38,7 @@ exec { 'update':
   line   => 'rewrite ^/redirect_me https://www.youtube.com/watch?v=0MW0mDZysxc permanent;',
 }
 
--> file_line { 'port 80':
+-> file_line { 'X-Served-By':
   ensure => 'present',
   path   => '/etc/nginx/sites-available/default',
   after  => 'listen 80 default_server;',
