@@ -10,9 +10,12 @@ from os import path
 def do_pack():
     """[generates a .tgz archive]
     """
-    time = datetime.utcnow()
-    filepath = "/versions/web_static_ {}.tgz".format(time)
-    local("mkdir versions")
-    local("tar -czvf {} web_static".format(filepath))
+    time_format = '%Y%m%d%H%M%S'
+    time = datetime.utcnow().strftime(time_format)
+    filepath = "versions/web_static_{}.tgz".format(time)
+    local("mkdir -p versions")
+    local("tar -cvzf {} web_static".format(filepath))
     if path.exists(filepath):
         return filepath
+    else:
+        return None
