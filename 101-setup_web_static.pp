@@ -1,5 +1,4 @@
-
-#puppet manifest to install Nginx web server
+#puppet manifest that sets up your web servers for the deployment of web_static
 
 $str = "add_header X-Served-By ${hostname};"
 $hbnb_static = "\tlocation /hbnb_static {\n\t\talias /data/web_static/current;\n\t\tindex index.html index.htm;\n\t}"
