@@ -27,7 +27,7 @@ printf %s "server {
     add_header X-Served-By $HOSTNAME;
 
     location /hbnb_static/ {
-        alias /data/web_static/current/hbnb_static;
+        alias /data/web_static/current;
         autoindex off;
     }
 
