@@ -13,10 +13,9 @@ def do_pack():
     timeF = '%Y%m%d%H%M%S'
     time = datetime.utcnow().strftime(timeF)
     filepath = "versions/web_static_{}.tgz".format(time)
-
-    local("mkdir -p versions")
-    local("tar -cvzf {} web_static".format(filepath))
-    if path.exists(filepath):
+    try :
+        local("mkdir -p versions")
+        local("tar -cvzf {} web_static".format(filepath))
         return filepath
     else:
         return None
