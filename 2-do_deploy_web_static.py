@@ -42,12 +42,13 @@ def do_deploy(archive_path):
         run("sudo mkdir -p /data/web_static/releases/{}/".format(filename))
         run("sudo tar -xzf /tmp/{}.tgz -C /data/web_static/releases/{}/".
             format(filename, filename))
-        run("sudo rm /tmp/{}".format(filename))
+        run("sudo rm /tmp/{}.tgz".format(filename))
         run("sudo mv {} /data/web_static/releases/{}/".format(path1, filename))
-        run("sudo rm -rf /data/web_static/releases/{}/web_static".format(filename))
-        run("sudo rm -rf /data/web_static/current")
-        run("sudo ln -s /data/web_static/releases/{}/ /data/web_static/current".
+        run("sudo rm -rf /data/web_static/releases/{}/web_static".
             format(filename))
+        run("sudo rm -rf /data/web_static/current")
+        run("sudo ln -s /data/web_static/releases/{}/ /data/web_static/current"
+            .format(filename))
         return True
     except:
         return False
