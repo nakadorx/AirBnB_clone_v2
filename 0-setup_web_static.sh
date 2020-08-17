@@ -10,8 +10,6 @@ sudo mkdir -p /data/web_static/shared/
 touch /data/web_static/releases/test/index.html
 
 echo "Holberton School" > /data/web_static/releases/test/index.html
-sudo touch /usr/share/nginx/html/notfound.html
-sudo echo "Ceci n'est pas une page" | sudo tee /usr/share/nginx/html/notfound.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
