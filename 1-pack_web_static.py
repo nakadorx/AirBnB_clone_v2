@@ -17,5 +17,5 @@ def do_pack():
         local("mkdir -p versions")
         local("tar -cvzf {} web_static".format(filepath))
         return filepath
-    else:
+    except :
         return None
