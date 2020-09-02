@@ -32,14 +32,16 @@ class DBStorage:
 
     def all(self, cls=None):
         """[summary]
-
         Args:
             cls ([type], optional): [description]. Defaults to None.
         """
         my_dict = {}
         query = []
         if cls is not None:
+            if isinstance(cls, str):
+                cls = eval(cls)
             query = self.__session.query(cls).all()
+
         if cls is None:
             query += self.__session.query(User).all()
             query += self.__session.query(State).all()
@@ -55,7 +57,6 @@ class DBStorage:
 
     def new(self, obj):
         """[add the object to the current database session]
-
         Args:
             obj ([object]): [object to be added]
         """
@@ -68,7 +69,6 @@ class DBStorage:
 
     def delete(self, obj=None):
         """[delete from the current database session]
-
         Args:
             obj ([object], optional): [object to be deleted]. Defaults to None.
         """
@@ -82,3 +82,6 @@ class DBStorage:
         session_factory = sessionmaker(bind=self.__engine,
                                        expire_on_commit=False)
         self.__session = scoped_session(session_factory)
+
+    def close(self):
+        self.__session.close()
