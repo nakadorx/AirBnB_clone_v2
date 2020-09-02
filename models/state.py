@@ -10,15 +10,15 @@ import models
 class State(BaseModel, Base):
     """ State class """
     name = Column(String(128), nullable=False)
-    citie = relationship("City", backref="state", cascade="all, delete")
+    cities = relationship("City", backref="state", cascade="all, delete")
     __tablename__ = "states"
 
     @property
-    def cities(self):
-        """[summary]
-
+    def citie(self):
+        """[cities method]
         Returns:
-            [type]: [description]
+            [list]: [return the list of City objects from
+            torage linked to the current State]
         """
         cities_list = []
         for cts in models.storage.all(City).values():
