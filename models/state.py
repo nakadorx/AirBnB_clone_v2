@@ -15,10 +15,7 @@ class State(BaseModel, Base):
 
     @property
     def citie(self):
-        """[cities method]
-        Returns:
-            [list]: [return the list of City objects from
-            torage linked to the current State]
+        """citties
         """
         cities_list = []
         for cts in models.storage.all(City).values():
