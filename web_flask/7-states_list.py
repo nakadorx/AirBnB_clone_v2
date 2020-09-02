@@ -18,8 +18,8 @@ def teardown(error):
 def statesList():
     """html
     """
-    states = storage.all("State")
-    return render_template('7-states_list.html', states=states)
+    st = storage.all("State")
+    return render_template('7-states_list.html', states=st)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', 5000)
