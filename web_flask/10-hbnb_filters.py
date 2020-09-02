@@ -10,18 +10,16 @@ app = Flask(__name__)
 
 @app.teardown_appcontext
 def teardown(error):
-    """teardown
-    """
+    """teardown"""
     storage.close()
 
 
-@app.route('/cities_by_states', strict_slashes=False)
-def citiesByState():
-    """citiesByState
-    """
+@app.route('/hbnb_filters', strict_slashes=False)
+def StatesAndcitiesByState():
+    """StatesAndcitiesByState"""
     st = storage.all("State")
-    return render_template('8-cities_by_states.html', states=st)
-
+    amenities = storage.all("Amenity")
+    return render_template('10-hbnb_filters.html', states=st, amenities=amenities)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', 5000)

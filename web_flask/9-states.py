@@ -2,23 +2,22 @@
 """script
 """
 from models import storage
-from flask import Flask, render_template
+from flask import Flask
+from flask import render_template
 
 app = Flask(__name__)
 
 
 @app.teardown_appcontext
 def teardown(error):
-    """teardown
-    """
+    """teardown"""
     storage.close()
 
 
 @app.route('/states', strict_slashes=False)
 @app.route('/states/<id>', strict_slashes=False)
 def StatesAndcitiesByState(id=None):
-    """StatesAndcitiesByState
-    """
+    """StatesAndcitiesByState"""
     st = storage.all("State")
     if id is None:
         return render_template('9-states.html', states=st)
