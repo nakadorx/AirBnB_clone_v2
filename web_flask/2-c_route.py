@@ -24,7 +24,7 @@ def HBNB():
 def c(text):
     """ccc
     """
-	return "C %s" % text.replace('_', ' ')
+    return "C %s" % text.replace('_', ' ')
 
 
 if __name__ == "__main__":
