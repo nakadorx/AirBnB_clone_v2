@@ -9,16 +9,14 @@ app = Flask(__name__)
 
 @app.teardown_appcontext
 def teardown(error):
-    """[teardown method]
+    """html
     """
     storage.close()
 
 
 @app.route('/states_list', strict_slashes=False)
 def statesList():
-    """[stateList method]
-    Returns:
-        [html]: [fetches html page]
+    """html
     """
     states = storage.all("State")
     return render_template('7-states_list.html', states=states)
